@@ -1,10 +1,13 @@
 // global
 let windowWidth = null
 let windowHeight = null
+let correctScore = 10
 let sumOfScore = 0
 let remainedTime = 60
-let tempNum = 1
+let activityNum = 1
 let numOfCombo = 1
+let acceleration = 1
+let isGameOver = false
 
 /**
  * canvas
@@ -27,7 +30,7 @@ const remainTime = document.querySelector('.remain-time')
 
 // temp btn
 const makeBtn = document.querySelector('#make')
-makeBtn.addEventListener('click', makeBtnClickListener)
+makeBtn.addEventListener('click', (e) => makeBtnClickListener(e))
 
 const removeBtn = document.querySelector('#remove')
 removeBtn.addEventListener('click', removeBtnClickListener)
@@ -42,15 +45,22 @@ window.addEventListener('resize', resizeEventListener)
 
 // functions
 function DOMContentLoadedEventListener() {
+  let intervalCnt = 0
   remainTime.innerText = `${remainedTime} 초`
 
-  let remainInterval = setInterval(() => {
+  const remainInterval = setInterval(() => {
     remainedTime -= 1
     remainTime.innerText = `${remainedTime} 초`
+
+    intervalCnt += 1
+    if (intervalCnt % 3 === 0) {
+      makeFaster()
+    }
 
     // 게임 오버
     if (remainedTime <= 0) {
       clearInterval(remainInterval)
+      isGameOver = true
     }
   }, 1000)
 }
@@ -82,30 +92,39 @@ function drawGridLine() {
   })}
 }
 
-function makeBtnClickListener() {
-  const randInt = getRandomArbitrary(0, numOfGrid)
+function makeBtnClickListener(e) {
+  e.target.parentNode.removeChild(e.target)
 
-  const activity = document.createElement('div')
-  activity.className = `activity ${tempNum}`
-  activity.style.width = `${(windowWidth / numOfGrid) - (paddingOfActivity * 2)}px`
-  activity.style.top = '20px'
-  activity.style.left = `${(randInt * (windowWidth / numOfGrid)) + paddingOfActivity}px`
+  const makeActivityInterval = setInterval(() => {
+    if (isGameOver) {
+      clearInterval(makeActivityInterval)
+    }
+    const randInt = getRandomArbitrary(0, 1000) % numOfGrid
 
-  const img = document.createElement('img')
-  img.className = 'img'
-  img.src = 'https://picsum.photos/200'
-  img.addEventListener('load', (e) => imgLoadListener(e, randInt))
+    const activity = document.createElement('div')
+    activity.className = `activity ${activityNum}`
+    activity.style.zIndex = 99999 - activityNum
+    activity.style.width = `${(windowWidth / numOfGrid) - (paddingOfActivity * 2)}px`
+    activity.style.top = '20px'
+    activity.style.left = `${(randInt * (windowWidth / numOfGrid)) + paddingOfActivity}px`
 
-  const content = document.createElement('div')
-  content.className = 'content'
-  content.innerText = `${tempNum} 번 동작`
+    const img = document.createElement('img')
+    img.className = 'img'
+    img.src = 'https://picsum.photos/200'
+    img.addEventListener('load', (e) => imgLoadListener(e, randInt))
 
-  activity.appendChild(img)
-  activity.appendChild(content)
+    const content = document.createElement('div')
+    content.className = 'content'
+    content.innerText = `${activityNum} 번 동작`
 
-  game.appendChild(activity)
+    activity.appendChild(img)
+    activity.appendChild(content)
 
-  tempNum += 1
+    game.appendChild(activity)
+
+    activityNum += 1
+  }, getRandomArbitrary(1000, 1200))
+
 }
 
 function removeBtnClickListener() {
@@ -114,8 +133,8 @@ function removeBtnClickListener() {
     const ax = activities[0].getBoundingClientRect().x
     const ay = activities[0].getBoundingClientRect().y
 
-    const rx = ax + getRandomArbitrary(0, activities[0].getBoundingClientRect().width)
-    const ry = ay + getRandomArbitrary(0, activities[0].getBoundingClientRect().height)
+    const rx = ax + getRandomArbitrary(0, activities[0].getBoundingClientRect().width - 30)
+    const ry = ay + getRandomArbitrary(0, activities[0].getBoundingClientRect().height - 30)
 
     const scoreTable = makeScoreTable(rx, ry)
     game.appendChild(scoreTable)
@@ -129,9 +148,13 @@ function removeBtnClickListener() {
 
     activities[0].parentElement.removeChild(activities[0])
 
-    sumOfScore += 10
-    totalScore.innerText = `${sumOfScore} 점`
+    sumOfScore += correctScore
+    totalScore.innerText = `${correctScore} 점`
   }
+}
+
+function makeFaster() {
+  acceleration *= 1.1
 }
 
 function makeScoreTable(xPos, yPos) {
@@ -166,18 +189,17 @@ function imgLoadListener(e, idx) {
   const target = e.target.parentNode
   let firstY = e.target.y
   let downInterval = null
-  let a = 1
 
   downInterval = setInterval(() => {
     const parentElement = target.parentElement
 
-    if (firstY > windowHeight) {
+    if (firstY > windowHeight - 300) {
       clearInterval(downInterval)
       if (parentElement) {
         target.parentElement.removeChild(target)
       }
     }
-    firstY += a
+    firstY += acceleration
     target.style.width = `${(windowWidth / numOfGrid) - (paddingOfActivity * 2)}px`
     target.style.top = `${firstY}px`
     target.style.left = `${(idx * (windowWidth / numOfGrid)) + paddingOfActivity}px`
