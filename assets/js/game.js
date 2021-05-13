@@ -4,12 +4,14 @@ let windowHeight = null
 let sumOfScore = 0
 let remainedTime = 60
 let tempNum = 1
+let numOfCombo = 1
 
 /**
  * canvas
  */
 // variables
 const numOfGrid = 4
+const paddingOfActivity = 10
 // dom elements
 const gridCanvas = document.querySelector('.grid-canvas')
 
@@ -85,8 +87,9 @@ function makeBtnClickListener() {
 
   const activity = document.createElement('div')
   activity.className = `activity ${tempNum}`
+  activity.style.width = `${(windowWidth / numOfGrid) - (paddingOfActivity * 2)}px`
   activity.style.top = '20px'
-  activity.style.left = `${(randInt * (windowWidth / numOfGrid)) + 2}px`
+  activity.style.left = `${(randInt * (windowWidth / numOfGrid)) + paddingOfActivity}px`
 
   const img = document.createElement('img')
   img.className = 'img'
@@ -108,11 +111,54 @@ function makeBtnClickListener() {
 function removeBtnClickListener() {
   const activities = document.querySelectorAll('.activity')
   if (activities.length > 0) {
+    const ax = activities[0].getBoundingClientRect().x
+    const ay = activities[0].getBoundingClientRect().y
+
+    const rx = ax + getRandomArbitrary(0, activities[0].getBoundingClientRect().width)
+    const ry = ay + getRandomArbitrary(0, activities[0].getBoundingClientRect().height)
+
+    const scoreTable = makeScoreTable(rx, ry)
+    game.appendChild(scoreTable)
+    setTimeout(() => {
+      confetti(scoreTable.querySelector('.particletext.confetti'))
+
+      setTimeout(() => {
+        scoreTable.parentNode.removeChild(scoreTable)
+      }, 3000)
+    }, 10)
+
     activities[0].parentElement.removeChild(activities[0])
 
     sumOfScore += 10
     totalScore.innerText = `${sumOfScore} 점`
   }
+}
+
+function makeScoreTable(xPos, yPos) {
+  const scoreTable = document.createElement('div')
+  scoreTable.className = 'score-table'
+  scoreTable.style.top = `${yPos}px`
+  scoreTable.style.left = `${xPos}px`
+  scoreTable.style.transform = `rotateZ(${getRandomArbitrary(-45,45)}deg)`
+
+  const textContainer = document.createElement('div')
+  textContainer.className = 'textcontainer'
+
+  const paticle = document.createElement('span')
+  paticle.className = 'particletext confetti'
+  paticle.innerText = `${numOfCombo} Combo !`
+  numOfCombo += 1
+
+  const score = document.createElement('div')
+  score.className = 'score'
+  score.innerText = `+ ${sumOfScore}`
+
+  textContainer.appendChild(paticle)
+
+  scoreTable.appendChild(textContainer)
+  scoreTable.appendChild(score)
+
+  return scoreTable
 }
 
 function imgLoadListener(e, idx) {
@@ -132,12 +178,29 @@ function imgLoadListener(e, idx) {
       }
     }
     firstY += a
+    target.style.width = `${(windowWidth / numOfGrid) - (paddingOfActivity * 2)}px`
     target.style.top = `${firstY}px`
-    target.style.left = `${(idx * (windowWidth / numOfGrid)) + 2}px`
+    target.style.left = `${(idx * (windowWidth / numOfGrid)) + paddingOfActivity}px`
   }, velocity)
 }
 
 // util functions
 function getRandomArbitrary(min, max) {
-  return parseInt(Math.random() * (max - min) + min);
+  return parseInt(Math.random() * (max - min + 1) + min);
+}
+
+function confetti(elem) {
+  const confetticount = parseInt((elem.getBoundingClientRect().width / 50) * 10);
+  
+  for(let i = 0; i <= confetticount; i++) {
+    const span = document.createElement('span')
+    span.className = `particle c${getRandomArbitrary(1,2)}`
+    span.style.top = `${getRandomArbitrary(10,50)}%`
+    span.style.left = `${getRandomArbitrary(0,100)}%`
+    span.style.width = `${getRandomArbitrary(6,8)}px`
+    span.style.height = `${getRandomArbitrary(3,4)}px`
+    span.style.animationDelay = `${(getRandomArbitrary(0,30)/10)}s`
+
+    elem.appendChild(span)
+  }
 }

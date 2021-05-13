@@ -54,7 +54,6 @@ html, body {
 
 #app .game .activity {
   position: absolute;
-  width: 200px;
   height: 200px;
 }
 
@@ -94,4 +93,61 @@ html, body {
   font-size: larger;
   font-weight: bold;
   transform: translate(-50%, 3%);
+}
+
+#app .game .score-table {
+  position: absolute;
+  top: 100px;
+  left: 450px;
+}
+
+#app .game .score-table .textcontainer {
+  padding: 40px 0 10px 0;
+  text-align: center;
+}
+
+#app .game .score-table .particletext {
+  text-align: center;
+  font-size: xx-large;
+  position: relative;
+}
+
+#app .game .score-table .particletext.confetti > .particle {
+  opacity: 0;
+  position: absolute;
+  animation: confetti 3s ease-in infinite;
+}
+
+#app .game .score-table .particletext.confetti > .particle.c1 {
+  background-color: rgba(76, 175, 80, 0.5);
+}
+
+#app .game .score-table .particletext.confetti > .particle.c2 {
+  background-color: rgba(156, 39, 176, 0.5);
+}
+
+#app .game .score-table .score {
+  text-align: center;
+  font-size: large;
+}
+
+
+@keyframes confetti {
+  0% {
+    opacity: 0;
+    transform: translateY(0%) rotate(0deg);
+  }
+  10% {
+    opacity: 1;
+  }
+  35% {
+    transform: translateY(-800%) rotate(270deg);
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(2000%) rotate(1440deg);
+  }
 }
