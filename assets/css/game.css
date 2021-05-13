@@ -5,17 +5,38 @@ html, body {
   height: 100%;
 }
 
+#app .btn {
+  position: absolute;
+  top: 3%;
+  cursor: pointer;
+  width: fit-content;
+  padding: 4px;
+  border-radius: 3px;
+  background-color: black;
+  color: white;
+}
+
+#make {
+  left: 10px;
+  z-index: 99;
+}
+
+#remove {
+  left: 90px;
+  z-index: 99;
+}
+
 #app {
   width: 100%;
   height: 100%;
 }
 
-#app .canvas {
+#app .grid-canvas {
   width: 100%;
   height: 100%;
 }
 
-#app .canvas .line {
+#app .grid-canvas .line {
   position: absolute;
   top: 0;
   width: 1px;
@@ -27,12 +48,12 @@ html, body {
   position: absolute;
   top: 0;
   left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 #app .game .activity {
   position: absolute;
-  top: 100px;
-  left: 200px;
   width: 200px;
   height: 200px;
 }
@@ -55,10 +76,22 @@ html, body {
   color: white;
 }
 
-/* #app .game .img {
-  position: fixed;
+#app .game .total-score {
+  position: absolute;
+  top: 3%;
+  right: 12px;
+  padding: 4px;
+  border-radius: 3px;
+  background-color: tomato;
+  color: white;
+  z-index: 999;
 }
 
-#app .game .btn {
-  width: fit-content;
-} */
+#app .game .remain-time {
+  position: absolute;
+  top: 3%;
+  left: 50%;
+  font-size: larger;
+  font-weight: bold;
+  transform: translate(-50%, 3%);
+}

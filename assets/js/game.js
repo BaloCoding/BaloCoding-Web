@@ -1,7 +1,8 @@
 // global
 let windowWidth = null
 let windowHeight = null
-
+let sumOfScore = 0
+let remainedTime = 60
 let tempNum = 1
 
 /**
@@ -10,7 +11,7 @@ let tempNum = 1
 // variables
 const numOfGrid = 4
 // dom elements
-const canvas = document.querySelector('.canvas')
+const gridCanvas = document.querySelector('.grid-canvas')
 
 /**
  * game
@@ -19,35 +20,53 @@ const canvas = document.querySelector('.canvas')
 
 // dom elements
 const game = document.querySelector('.game')
+const totalScore = document.querySelector('.total-score')
+const remainTime = document.querySelector('.remain-time')
 
 // temp btn
-const btn = document.createElement('div')
-btn.className = 'btn'
-btn.innerText = '<make img>'
-btn.style.width = 'fit-content'
-btn.addEventListener('click', btnClickListener)
-game.appendChild(btn)
+const makeBtn = document.querySelector('#make')
+makeBtn.addEventListener('click', makeBtnClickListener)
+
+const removeBtn = document.querySelector('#remove')
+removeBtn.addEventListener('click', removeBtnClickListener)
 // temp btn
 
 
 // event listeners
+window.addEventListener('DOMContentLoaded', DOMContentLoadedEventListener)
 window.addEventListener('load', loadEventListener)
 window.addEventListener('resize', resizeEventListener)
 
 
 // functions
+function DOMContentLoadedEventListener() {
+  remainTime.innerText = `${remainedTime} 초`
+
+  let remainInterval = setInterval(() => {
+    remainedTime -= 1
+    remainTime.innerText = `${remainedTime} 초`
+
+    // 게임 오버
+    if (remainedTime <= 0) {
+      clearInterval(remainInterval)
+    }
+  }, 1000)
+}
+
 function loadEventListener() {
-  canvas.innerHTML = ''
+  gridCanvas.innerHTML = ''
   windowWidth = window.innerWidth
   windowHeight = window.outerHeight
+  totalScore.innerText = `${sumOfScore} 점`
 
   drawGridLine()
 }
 
 function resizeEventListener() {
-  canvas.innerHTML = ''
+  gridCanvas.innerHTML = ''
   windowWidth = window.innerWidth
   windowHeight = window.outerHeight
+  totalScore.innerText = `${sumOfScore} 점`
 
   drawGridLine()
 }
@@ -57,17 +76,17 @@ function drawGridLine() {
     const gridLine = document.createElement('div')
     gridLine.className = 'line'
     gridLine.style.left = `${(windowWidth / numOfGrid) * (idx)}px`
-    canvas.appendChild(gridLine)
+    gridCanvas.appendChild(gridLine)
   })}
 }
 
-function btnClickListener() {
+function makeBtnClickListener() {
   const randInt = getRandomArbitrary(0, numOfGrid)
 
   const activity = document.createElement('div')
-  activity.className = 'activity'
+  activity.className = `activity ${tempNum}`
   activity.style.top = '20px'
-  activity.style.left = `${randInt * (windowWidth / numOfGrid)}px`
+  activity.style.left = `${(randInt * (windowWidth / numOfGrid)) + 2}px`
 
   const img = document.createElement('img')
   img.className = 'img'
@@ -86,20 +105,35 @@ function btnClickListener() {
   tempNum += 1
 }
 
+function removeBtnClickListener() {
+  const activities = document.querySelectorAll('.activity')
+  if (activities.length > 0) {
+    activities[0].parentElement.removeChild(activities[0])
+
+    sumOfScore += 10
+    totalScore.innerText = `${sumOfScore} 점`
+  }
+}
+
 function imgLoadListener(e, idx) {
-  const velocity = 8
+  const velocity = 10
   const target = e.target.parentNode
   let firstY = e.target.y
   let downInterval = null
+  let a = 1
 
   downInterval = setInterval(() => {
+    const parentElement = target.parentElement
+
     if (firstY > windowHeight) {
       clearInterval(downInterval)
-      target.parentElement.removeChild(target)
+      if (parentElement) {
+        target.parentElement.removeChild(target)
+      }
     }
-    firstY += 1
+    firstY += a
     target.style.top = `${firstY}px`
-    target.style.left = `${idx * (windowWidth / numOfGrid)}px`
+    target.style.left = `${(idx * (windowWidth / numOfGrid)) + 2}px`
   }, velocity)
 }
 
