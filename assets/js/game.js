@@ -1,41 +1,62 @@
 // global
 let windowWidth = null
 let windowHeight = null
-let correctScore = 10
+let correctScore = 100
 let sumOfScore = 0
-let remainedTime = 60
+let remainedTime = 0
 let activityNum = 1
 let numOfCombo = 1
 let acceleration = 1
+let maximumTime = 10000
+let changeActivityTime = maximumTime
 let isGameOver = false
+let isCorrectPose = 0
 
 /**
- * canvas
- */
-// variables
-const numOfGrid = 4
-const paddingOfActivity = 10
-// dom elements
-const gridCanvas = document.querySelector('.grid-canvas')
-
-/**
- * game
+ * activity
  */
 // variables
 
 // dom elements
-const game = document.querySelector('.game')
-const totalScore = document.querySelector('.total-score')
-const remainTime = document.querySelector('.remain-time')
+const activity = document.querySelector('.activity')
+const remainTime = document.querySelector('.activity .remain-time')
+const totalScore = document.querySelector('.activity .total-score')
+const tryItImg = document.querySelector('.activity .try-it')
 
-// temp btn
-const makeBtn = document.querySelector('#make')
-makeBtn.addEventListener('click', (e) => makeBtnClickListener(e))
+startGame()
 
-const removeBtn = document.querySelector('#remove')
-removeBtn.addEventListener('click', removeBtnClickListener)
-// temp btn
+/**
+ * effect
+ */
+// variables
 
+// dom elements
+const effect = document.querySelector('.effect')
+
+// // temp btn
+const changeBtn = document.querySelector('#change')
+changeBtn.addEventListener('click', changeActivityImg)
+
+const effectBtn = document.querySelector('#effect')
+effectBtn.addEventListener('click', addComboAnimation)
+// // temp btn
+
+/**
+ * webcam
+ */
+// variables
+
+// dom elements
+const webcam = document.querySelector('.webcam')
+
+/**
+ * game-over
+ */
+const gameOver = document.querySelector('.game-over')
+const myScore = document.querySelector('.my-score')
+const share = document.querySelector('.share')
+share.addEventListener('click', shareKakaoTalk)
+const sceneImg = document.querySelector('.scene')
 
 // event listeners
 window.addEventListener('DOMContentLoaded', DOMContentLoadedEventListener)
@@ -45,119 +66,106 @@ window.addEventListener('resize', resizeEventListener)
 
 // functions
 function DOMContentLoadedEventListener() {
-  let intervalCnt = 0
-  remainTime.innerText = `${remainedTime} 초`
+  remainTime.innerText = `${remainedTime}초`
 
   const remainInterval = setInterval(() => {
-    remainedTime -= 1
-    remainTime.innerText = `${remainedTime} 초`
-
-    intervalCnt += 1
-    if (intervalCnt % 3 === 0) {
-      makeFaster()
+    changeActivityTime -= 1000
+    if (changeActivityTime === 0) {
+      changeActivityTime = maximumTime
+      changeActivityImg(null, 'fail')
     }
+
+    remainedTime -= 1
+    remainTime.innerText = `${remainedTime}초`
 
     // 게임 오버
     if (remainedTime <= 0) {
       clearInterval(remainInterval)
       isGameOver = true
+      
+      gameOver.classList.remove('hide')
+      setTimeout(() => {
+        raiseTotalScore(myScore)
+      }, 2000)
     }
   }, 1000)
 }
 
 function loadEventListener() {
-  gridCanvas.innerHTML = ''
   windowWidth = window.innerWidth
   windowHeight = window.outerHeight
-  totalScore.innerText = `${sumOfScore} 점`
 
-  drawGridLine()
+  totalScore.innerText = `${sumOfScore}점`
+  webcam.style.width = `${windowWidth / 5}px`
+  webcam.style.height = `${windowHeight / 3}px`
 }
 
 function resizeEventListener() {
-  gridCanvas.innerHTML = ''
   windowWidth = window.innerWidth
   windowHeight = window.outerHeight
-  totalScore.innerText = `${sumOfScore} 점`
 
-  drawGridLine()
+  totalScore.innerText = `${sumOfScore}점`
+  webcam.style.width = `${windowWidth / 5}px`
+  webcam.style.height = `${windowHeight / 3}px`
 }
 
-function drawGridLine() {
-  {[...Array(numOfGrid)].forEach((n, idx) => {
-    const gridLine = document.createElement('div')
-    gridLine.className = 'line'
-    gridLine.style.left = `${(windowWidth / numOfGrid) * (idx)}px`
-    gridCanvas.appendChild(gridLine)
-  })}
+function startGame() {
+  tryItImg.src = `https://picsum.photos/${getRandomArbitrary(1000, 2000)}`
 }
 
-function makeBtnClickListener(e) {
-  e.target.parentNode.removeChild(e.target)
+function changeActivityImg(e, mode = 'default') {
+  changeActivityTime = maximumTime
+  tryItImg.src = `https://picsum.photos/${getRandomArbitrary(1000, 2000)}`
 
-  const makeActivityInterval = setInterval(() => {
-    if (isGameOver) {
-      clearInterval(makeActivityInterval)
+  if (mode === 'default') {
+    // 웹캠으로 측정한 값
+    isCorrectPose = getRandomArbitrary(0, 2)
+    if (isCorrectPose === 0) {
+      remainedTime += getRandomArbitrary(2, 6)
+      maximumTime -= 1000
+      if (maximumTime < 6000) {
+        maximumTime = 6000
+      }
+      addComboAnimation()
     }
-    const randInt = getRandomArbitrary(0, 1000) % numOfGrid
-
-    const activity = document.createElement('div')
-    activity.className = `activity ${activityNum}`
-    activity.style.zIndex = 99999 - activityNum
-    activity.style.width = `${(windowWidth / numOfGrid) - (paddingOfActivity * 2)}px`
-    activity.style.top = '20px'
-    activity.style.left = `${(randInt * (windowWidth / numOfGrid)) + paddingOfActivity}px`
-
-    const img = document.createElement('img')
-    img.className = 'img'
-    img.src = 'https://picsum.photos/200'
-    img.addEventListener('load', (e) => imgLoadListener(e, randInt))
-
-    const content = document.createElement('div')
-    content.className = 'content'
-    content.innerText = `${activityNum} 번 동작`
-
-    activity.appendChild(img)
-    activity.appendChild(content)
-
-    game.appendChild(activity)
-
-    activityNum += 1
-  }, getRandomArbitrary(1000, 1200))
-
-}
-
-function removeBtnClickListener() {
-  const activities = document.querySelectorAll('.activity')
-  if (activities.length > 0) {
-    const ax = activities[0].getBoundingClientRect().x
-    const ay = activities[0].getBoundingClientRect().y
-
-    const rx = ax + getRandomArbitrary(0, activities[0].getBoundingClientRect().width - 30)
-    const ry = ay + getRandomArbitrary(0, activities[0].getBoundingClientRect().height - 30)
-
-    const scoreTable = makeScoreTable(rx, ry)
-    game.appendChild(scoreTable)
-    setTimeout(() => {
-      confetti(scoreTable.querySelector('.particletext.confetti'))
-
-      setTimeout(() => {
-        scoreTable.parentNode.removeChild(scoreTable)
-      }, 3000)
-    }, 10)
-
-    activities[0].parentElement.removeChild(activities[0])
-
-    sumOfScore += correctScore
-    totalScore.innerText = `${correctScore} 점`
+  } else {
+    addFailAnimation()
   }
 }
 
-function makeFaster() {
-  acceleration *= 1.1
+function addFailAnimation() {
+  const rx = getRandomArbitrary(150, windowWidth - 400)
+  const ry = getRandomArbitrary(150, windowHeight - 400)
+
+  const scoreTable = makeScoreFailureTable(rx, ry)
+  effect.appendChild(scoreTable)
+  setTimeout(() => {
+    fire(scoreTable.querySelector('.particletext.fire'))
+
+    setTimeout(() => {
+      scoreTable.parentNode.removeChild(scoreTable)
+    }, 3000)
+  }, 10)
 }
 
-function makeScoreTable(xPos, yPos) {
+function addComboAnimation() {
+  const rx = getRandomArbitrary(150, windowWidth - 400)
+  const ry = getRandomArbitrary(150, windowHeight - 400)
+
+  const scoreTable = makeScoreSuccessTable(rx, ry)
+  effect.appendChild(scoreTable)
+  setTimeout(() => {
+    confetti(scoreTable.querySelector('.particletext.confetti'))
+
+    setTimeout(() => {
+      scoreTable.parentNode.removeChild(scoreTable)
+    }, 3000)
+  }, 10)
+
+  raiseTotalScore(totalScore)
+}
+
+function makeScoreSuccessTable(xPos, yPos) {
   const scoreTable = document.createElement('div')
   scoreTable.className = 'score-table'
   scoreTable.style.top = `${yPos}px`
@@ -174,7 +182,7 @@ function makeScoreTable(xPos, yPos) {
 
   const score = document.createElement('div')
   score.className = 'score'
-  score.innerText = `+ ${sumOfScore}`
+  score.innerText = `+ ${correctScore}`
 
   textContainer.appendChild(paticle)
 
@@ -184,31 +192,51 @@ function makeScoreTable(xPos, yPos) {
   return scoreTable
 }
 
-function imgLoadListener(e, idx) {
-  const velocity = 10
-  const target = e.target.parentNode
-  let firstY = e.target.y
-  let downInterval = null
+function makeScoreFailureTable(xPos, yPos) {
+  const scoreTable = document.createElement('div')
+  scoreTable.className = 'score-table fail'
+  scoreTable.style.top = `${yPos}px`
+  scoreTable.style.left = `${xPos}px`
+  scoreTable.style.transform = `rotateZ(${getRandomArbitrary(-45,45)}deg)`
 
-  downInterval = setInterval(() => {
-    const parentElement = target.parentElement
+  const textContainer = document.createElement('div')
+  textContainer.className = 'textcontainer'
 
-    if (firstY > windowHeight - 300) {
-      clearInterval(downInterval)
-      if (parentElement) {
-        target.parentElement.removeChild(target)
-      }
-    }
-    firstY += acceleration
-    target.style.width = `${(windowWidth / numOfGrid) - (paddingOfActivity * 2)}px`
-    target.style.top = `${firstY}px`
-    target.style.left = `${(idx * (windowWidth / numOfGrid)) + paddingOfActivity}px`
-  }, velocity)
+  const paticle = document.createElement('span')
+  paticle.className = 'particletext fire'
+  paticle.innerText = `Failure !`
+
+  textContainer.appendChild(paticle)
+
+  scoreTable.appendChild(textContainer)
+
+  return scoreTable
+}
+
+function shareKakaoTalk() {
+  console.log('태민아 만들어')
 }
 
 // util functions
 function getRandomArbitrary(min, max) {
   return parseInt(Math.random() * (max - min + 1) + min);
+}
+
+function fire(elem) {
+  const firecount = parseInt((elem.getBoundingClientRect().width / 50) * 20);
+
+  for(let i = 0; i <= firecount; i++) {
+    const size = getRandomArbitrary(8,12);
+    const span = document.createElement('span')
+    span.className = 'particle'
+    span.style.top = `${getRandomArbitrary(40,70)}%`
+    span.style.left = `${getRandomArbitrary(-10,100)}%`
+    span.style.width = `${size}px`
+    span.style.height = `${size}px`
+    span.style.animationDelay = `${(getRandomArbitrary(0,20)/10)}s`
+
+    elem.appendChild(span)
+  }
 }
 
 function confetti(elem) {
@@ -225,4 +253,18 @@ function confetti(elem) {
 
     elem.appendChild(span)
   }
+}
+
+function raiseTotalScore(elem) {
+  const curScore = parseInt(elem.innerText)
+  sumOfScore += correctScore
+
+  let cnt = 0
+  const plusInterval = setInterval(() => {
+    if (cnt >= correctScore) {
+      clearInterval(plusInterval)
+    }
+    elem.innerHTML = `${curScore + cnt}점`
+    cnt += 1
+  }, 1)
 }
