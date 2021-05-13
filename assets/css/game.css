@@ -1,8 +1,9 @@
-html, body {
+html, body, #app {
   padding: 0;
   margin: 0;
   width: 100%;
   height: 100%;
+  font-family: 'Anonymous Pro', monospace;
 }
 
 #app .btn {
@@ -16,124 +17,127 @@ html, body {
   color: white;
 }
 
-#make {
-  left: 10px;
+#change {
+  left: 20px;
   z-index: 99;
 }
 
-#remove {
-  left: 90px;
+#effect {
+  left: 120px;
   z-index: 99;
 }
 
-#faster {
-  left: 190px;
-  z-index: 99;
-}
-
-#app {
+#app .activity {
   width: 100%;
   height: 100%;
 }
 
-#app .grid-canvas {
-  width: 100%;
-  height: 100%;
-}
-
-#app .grid-canvas .line {
+#app .activity .total-score {
   position: absolute;
-  top: 0;
-  width: 1px;
-  height: 100%;
-  background: rgba(0,0,0,0.1);
-}
-
-#app .game {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-#app .game .activity {
-  position: absolute;
-  height: 200px;
-}
-
-#app .game .activity .img {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-#app .game .activity .content {
-  position: absolute;
-  width: 100%;
-  bottom: 0;
-  z-index: 9;
-  padding: 3px 0 3px 0;
-  background-color: rgba(0,0,0,0.5);
-  text-align: center;
-  color: white;
-}
-
-#app .game .total-score {
-  position: absolute;
+  min-width: 58px;
+  text-align: center;  
   top: 3%;
-  right: 12px;
+  right: 3%;
   padding: 8px;
   border-radius: 3px;
-  background-color: tomato;
+  background-color: #343f4f;
+  font-size: x-large;
   color: white;
   z-index: 999;
 }
 
-#app .game .remain-time {
+#app .activity .remain-time {
   position: absolute;
   top: 3%;
   left: 50%;
-  font-size: larger;
+  font-size: xx-large;
   font-weight: bold;
   transform: translate(-50%, 3%);
+  padding: 12px 18px 12px 18px;
+  border-radius: 8px;
+  color: white;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 999;
 }
 
-#app .game .score-table {
+#app .activity .try-it {
   position: absolute;
-  top: 100px;
-  left: 450px;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  object-fit: fill;
 }
 
-#app .game .score-table .textcontainer {
-  padding: 40px 0 10px 0;
+#app .effect {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+#app .effect .score-table {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  border-radius: 8px;
+  color: white;
+  z-index: 120;
+}
+
+#app .effect .score-table .textcontainer {
+  padding: 25px 0 10px 0;
   text-align: center;
 }
 
-#app .game .score-table .particletext {
+#app .effect .score-table .particletext {
   text-align: center;
-  font-size: xx-large;
+  font-size: 56px;
   position: relative;
 }
 
-#app .game .score-table .particletext.confetti > .particle {
+#app .effect .score-table .particletext.confetti > .particle {
   opacity: 0;
   position: absolute;
   animation: confetti 3s ease-in infinite;
 }
 
-#app .game .score-table .particletext.confetti > .particle.c1 {
+#app .effect .score-table .particletext.confetti > .particle.c1 {
   background-color: rgba(76, 175, 80, 0.5);
 }
 
-#app .game .score-table .particletext.confetti > .particle.c2 {
+#app .effect .score-table .particletext.confetti > .particle.c2 {
   background-color: rgba(156, 39, 176, 0.5);
 }
 
-#app .game .score-table .score {
+#app .effect .score-table .score {
   text-align: center;
+  font-size: 48px;
+}
+
+#app .webcam {
+  position: absolute;
+  background: white;
+  box-shadow: 8px 8px 15px 0px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  width: 150px;
+  height: 200px;
+  right: 3%;
+  bottom: 12%;
+  z-index: 99;
+}
+
+#app .webcam .you {
+  margin-top: -25px;
+  text-align: end;
+  font-weight: bold;
   font-size: large;
+}
+
+#app .webcam canvas {
+  width: 100%;
+  height: 100%;
 }
 
 

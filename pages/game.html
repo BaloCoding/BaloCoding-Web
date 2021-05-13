@@ -6,15 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../assets/css/game.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro&display=swap" rel="stylesheet">
   </head>
   <body>
     <main id="app">
-      <div id="make" class="btn">make img</div>
-      <div id="remove" class="btn">remove img</div>
-      <div class="grid-canvas"></div>
-      <div class="game">
+      <div id="change" class="btn">change</div>
+      <div id="effect" class="btn">effect</div>
+      <div class="activity">
         <div class="remain-time"></div>
         <div class="total-score"></div>
+        <img class="try-it"/>
+      </div>
+      <div class="effect"></div>
+      <div class="webcam">
+        <!-- 웹캠 자리 -->
+        <canvas></canvas>
       </div>
     </main>
     <script src="../assets/js/game.js"></script>
