@@ -9,22 +9,22 @@
 ![KakaoTalk_20210513_223631415](https://user-images.githubusercontent.com/38045080/118143606-81017980-b446-11eb-907f-8c37191c576b.png)
 저희는 **홈피트** 라는 웹 사이트로, 3가지 버전의 스쿼트 자세, 2가지 버전의 런지 자세를 포함한 총 6개의 다양한 운동 자세를 사용하여 점수를 얻는 간단한 운동 게임 프로그램을 제공합니다. **운동이 익숙해도, 그렇지 않아도 모두 즐길 수 있습니다!**   
 
-## 왜 만들었나요?
+## 🙋 왜 만들었나요?
 ![photo-1517836357463-d25dfeac3438](https://user-images.githubusercontent.com/38045080/118144776-cbcfc100-b447-11eb-9602-07494eb5a6bd.jpg)
 
 COVID-19로 인한 국민들의 신체적인 운동 부족 현상이 심화가 되고 있습니다. 실내 체육시설은 불안하고, 미세먼지로 산책도 꺼려지는 요즘, 그 어느때보다 홈트레이닝이 절실한 상황입니다. 운동 부족을 집에서 해결할 수 있도록, 쉽고(?) 재밌는 게임으로 여러분들에게 홈트레이닝을 제공합니다.
 
 
-## 어떻게 사용하나요?
+## 🤷 어떻게 사용하나요?
 
 예제
 
-## 어떤 기술로 만들었나요?
+## 🧑‍💻 어떤 기술로 만들었나요?
 - JS
 - Kakao API
 - Tensorflow Lite
 
-## 어떤 데이터를 사용했나요?
+## 🖥 어떤 데이터를 사용했나요?
 국민체육진흥공단의 국민 체력 100 동영상을 사용하였습니다.
 일부의 영상 데이터와 직접 촬영한 포즈 데이터를 합쳐서 구글에서 제공하는 [Teachable Machine](https://teachablemachine.withgoogle.com/train/pose) 을 이용하여 Pose Estimation Model을 학습시켜서 사용하였습니다.
 - [국민체육진흥공단 영상 데이터](https://nfa.kspo.or.kr/front/movie/movieTypeList.do)
@@ -35,7 +35,7 @@ COVID-19로 인한 국민들의 신체적인 운동 부족 현상이 심화가 �
 ![image](https://user-images.githubusercontent.com/38045080/118151361-8236a480-b44e-11eb-9764-c8a8edc7c0dc.png)
 </details>
 
-## 팀원 소개
+## 🥇 팀원 소개
 
 소프트웨어 마에스트로 12th 연수생
 - BaloCoding
