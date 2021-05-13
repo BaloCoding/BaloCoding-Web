@@ -6,6 +6,11 @@ html, body, #app {
   font-family: 'Anonymous Pro', monospace;
 }
 
+a {
+  text-decoration: none;
+  color: black;
+}
+
 #app .btn {
   position: absolute;
   top: 3%;
@@ -38,10 +43,10 @@ html, body, #app {
   text-align: center;  
   top: 3%;
   right: 3%;
-  padding: 8px;
-  border-radius: 3px;
+  padding: 12px 18px 12px 18px;
+  border-radius: 8px;
   background-color: #343f4f;
-  font-size: x-large;
+  font-size: xx-large;
   color: white;
   z-index: 999;
 }
@@ -86,6 +91,10 @@ html, body, #app {
   z-index: 120;
 }
 
+#app .effect .score-table.fail {
+  background: rgba(255, 125, 0, 0.15);
+}
+
 #app .effect .score-table .textcontainer {
   padding: 25px 0 10px 0;
   text-align: center;
@@ -109,6 +118,29 @@ html, body, #app {
 
 #app .effect .score-table .particletext.confetti > .particle.c2 {
   background-color: rgba(156, 39, 176, 0.5);
+}
+
+#app .effect .score-table .particletext.fire > .particle {
+  position: absolute;
+  background-color: rgba(255, 193, 7, 0.5);
+  border-radius: 40px;
+  border-top-right-radius: 0px;
+  animation: fires 0.8s linear infinite;
+  transform: rotate(-45deg);
+  opacity: 0;
+}
+
+#app .effect .score-table .particletext.fire > .particle:before {
+  position: absolute;
+  content: '';
+  top: 60%;
+  left: 40%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  height: 50%;
+  border-radius: 40px;
+  border-top-right-radius: 0px;
+  background-color: rgba(251, 140, 0, 0.5);
 }
 
 #app .effect .score-table .score {
@@ -140,6 +172,92 @@ html, body, #app {
   height: 100%;
 }
 
+#app .game-over {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: 2s ease;
+  opacity: 1;
+  background-image: url(../img/homeFit.png);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#app .game-over div {
+  margin-top: 1em;
+}
+
+#app .game-over .title {
+  font-size: xx-large;
+  font-weight: bold;
+  text-align: center;
+}
+
+#app .game-over .my-score {
+  font-size: xx-large;
+  text-align: center;
+}
+
+#app .game-over .content {
+  text-align: center;
+}
+
+#app .game-over .best-scene {
+  height: 300px;
+}
+
+#app .game-over .best-scene .scene {
+  width: 100%;
+  height: 100%;
+  object-fit: scale-down;
+}
+
+#app .game-over .box {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+#app .game-over .box div {
+  cursor: pointer;
+  background: #343f4f;
+  color: white;
+  text-align: center;
+  border-radius: 4px;
+  padding: 12px;
+}
+
+#app .game-over .box div a {
+  color: white;
+}
+
+#app .game-over.hide {
+  opacity: 0;
+}
+
+@keyframes fires {
+  0% {
+    transform: rotate(-70deg) translateY(0%);
+ }
+  25% {
+    transform: rotate(-20deg) translateY(-5%);
+    opacity: 1;
+ }
+  50% {
+    transform: rotate(-70deg) translateY(-10%);
+ }
+  75% {
+    transform: rotate(-20deg) translateY(-20%);
+ }
+  100% {
+    transform: rotate(-70deg) translateY(-40%);
+    opacity: 1;
+ }
+}
 
 @keyframes confetti {
   0% {
