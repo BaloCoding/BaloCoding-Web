@@ -12,6 +12,7 @@
     <title>AI Fitness Trainer</title>
     <link rel="stylesheet" href="../assets//css//style.css">
 </head>
+
 <body>
     <div class="container mt-5">
         <div class="frame">
@@ -21,7 +22,8 @@
                 </div>
                 <div class="circle-big">
                     <div class="text">
-                        <span id="counter">0</span><div class="small">개</div>
+                        <span id="counter">0</span>
+                        <div class="small">개</div>
                     </div>
                     <svg>
                         <circle class="bg" cx="57" cy="57" r="52" />
@@ -31,7 +33,7 @@
             </div>
         </div>
         <h1>인공지능(AI) Fitness Trainer</h1>
-        <button class="btn btn-primary"type="button" onclick="init()">Start</button>
+        <button class="btn btn-primary" type="button" onclick="init()">Start</button>
         <div><canvas id="canvas"></canvas></div>
         <div id="label-container"></div>
     </div>
@@ -92,6 +94,7 @@
         var progress = 327
         var status = "stand"
         var count = 0
+
         async function predict() {
             // Prediction #1: run input through posenet
             // estimatePose can take in an image, video or canvas html element
@@ -103,9 +106,9 @@
                     count++
                     var audio = new Audio(count % 10 + '.mp3');
                     audio.play();
-                    progress = progress-32.7
-                    if(progress <= 0) {
-                        progress = 327-32.7
+                    progress = progress - 32.7
+                    if (progress <= 0) {
+                        progress = 327 - 32.7
                     }
                     $('.progress').css('stroke-dashoffset', progress);
                     $('#counter').html(count);

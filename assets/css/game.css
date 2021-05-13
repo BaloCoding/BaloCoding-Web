@@ -160,3 +160,14 @@ html, body, #app {
     transform: translateY(2000%) rotate(1440deg);
   }
 }
+
+.webcamContainer{
+  position: fixed;
+  right: 100px;
+  bottom : 200px;
+}
+
+.try-it{
+  width: 100vw;
+  height: 100vh;
+}
