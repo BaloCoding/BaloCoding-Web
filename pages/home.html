@@ -1,42 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href = "../assets//css//home.css">
+    <link rel="stylesheet" href="../assets//css//home.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <title>Document</title>
 </head>
+
 <body>
-    <div class ="videoContainer">
-        <div class = "opacityBlock"></div>
-        <video
-            src ="../assets/video/main.mp4" 
-            type="video/mp4" 
-            autoplay
-            loop
-        >
+    <!-- AOS Lib initailize -->
+    <script>
+        AOS.init();
+    </script>
+    <!-- Video Container [Fixed Ui component] -->
+    <div class="videoContainer">
+        <div class="opacityBlock"></div>
+        <video src="../assets/video/main.mp4" type="video/mp4" autoplay loop>
     </div>
-    <div class = "container">
-        <div class ="content">
-            <div class = "titleContainer">
-                <div class = "title">SoMa 12th 해커톤,</div>
-                <br>
-                <div class = "title">Team BaloCoding.</div>
-                <hr>
-            </div>
-            <div>
-                <div class = "title2">코로나 운동시설 대체, 국민체력증진 서비스</div>
-                <button class = "gameStart_button" type="button" onclick="location.href='game.html'">게임시작!</button>
-            </div>
-        <div class="tempBox">1</div>
-        <div class="tempBox">2</div>
-        <div class="tempBox">3</div>
-        <div class="tempBox">4</div>
-        <div class="tempBox">5</div>
-        <div class="tempBox">6</div>
-        <div class="tempBox">7</div>
+    <!-- Main Contents Container -->
+
+    <div class="content">
+        <div class="titleContainer">
+            <div class="title">SoMa 12th 해커톤,</div>
+            <br>
+            <div class="title">Team BaloCoding.</div>
+            <br>
+            <hr>
         </div>
-    </div> 
-</body> 
+        <div class="guideContainer">
+            <div class="temp1" data-aos="fade-in" data-aos-duration="3000">
+                <div class="title2">코로나 운동시설 대체, 국민체력증진 서비스</div>
+                <img src="../assets/img/logo.png" width="250px" height="200px">
+            </div>
+        </div>
+
+        <div class="guideContainer">
+            <div class="temp1" data-aos="fade-in" data-aos-duration="3000">
+                <img class="imgNotebook" src="../assets/img/notebook.png">
+                <div class="temp1TextBox">
+                    <div class="temp1TextBoxTitle">홈피트는?</div>
+                    <div class="temp1TextBoxText">음악과 함께 간단한 게임을 제공하며 즐겁게 운동을 도와주는 서비스 입니다. </div>
+                    <div class="temp1TextBoxText">땀흘릴, 건강해질 준비가 되셨다면 시작하기 버튼을 눌러주세요! </div>
+                    <button class="gameStart_button" type="button" onclick="location.href='game.html'">
+                        HomeFit 시작하기
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="guideContainer">
+            <div class="temp1" data-aos="fade-left" data-aos-duration="3000">
+                <div class="temp1TextBox">
+                    <div class="temp2TextBoxText">많은 사람들이 건강 유지 및 증진의 이유로 체육활동 필요성 인식하지만,
+                    </div>
+                    <br>
+                    <br>
+                    <div class="temp2TextBoxText">시간 부족과 접근성 결여의 이유로 운동을 꾸준하게 하지 못하는 현실입니다.
+                    </div>
+                </div>
+                <div class="card">
+                    <img class="front" src="../assets/img/그림1.png">
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- AOS Exeample
+            <div data-aos="fade-right" data-aos-duration="3000">
+                <img class="imgNotebook" src="../assets/img/notebook.png">
+            </div>
+            <div data-aos="fade-left" data-aos-duration="3000">
+                <img class="imgNotebook" src="../assets/img/notebook.png">
+            </div> -->
+
+
+
+
+
+
+    </div>
+
+
+</body>
+
 </html>
