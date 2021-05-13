@@ -37,11 +37,12 @@ COVID-19로 인한 국민들의 신체적인 운동 부족 현상이 심화가 �
 
 ## 🥇 팀원 소개
 
-소프트웨어 마에스트로 12th 연수생
-- BaloCoding
--- [정원영](https://github.com/WonyJeong)
--- [김영배](https://github.com/canoe726)
--- [이태민](https://github.com/koalakid1)
--- [강하림](https://github.com/harimkang)
--- [이주원](https://github.com/wndnjs9878)
--- [서청운](https://github.com/newdeal123)
+소프트웨어 마에스트로 12th 연수생 Team BaloCoding
+|팀원|
+|---|
+|[정원영](https://github.com/WonyJeong)|
+|[김영배](https://github.com/canoe726)|
+|[이태민](https://github.com/koalakid1)|
+|[강하림](https://github.com/harimkang)|
+|[이주원](https://github.com/wndnjs9878)|
+|[서청운](https://github.com/newdeal123)|
